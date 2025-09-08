@@ -268,11 +268,6 @@ function Footer() {
     <section id="resume" className="mx-auto max-w-6xl px-4 pb-14">
       <div className={`${cls.card} card`}>
         <h2 className={cls.sectionTitle}>Resume</h2>
-        <p className="mt-2 text-slate-300 max-w-2xl">Add a link to your current resume or a PDF. I can also generate a tailored version for roles in telemetry, firmware, or AI research.</p>
-        <div className="mt-4 flex flex-wrap gap-3">
-          <a href="#" className={cls.btnGhost}>View PDF</a>
-          <a href="#" className={cls.btnPrimary}>Request tailored resume <ArrowRight className="h-4 w-4"/></a>
-        </div>
       </div>
       <footer className="mt-10 text-center text-slate-500 text-sm">© {new Date().getFullYear()} Nyx. All rights reserved.</footer>
     </section>
