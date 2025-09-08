@@ -1,9 +1,24 @@
 import { ArrowRight, Github, Mail, Sparkles, Cpu, Cog, Battery, Car, Code2, Wrench } from "lucide-react";
 import React from "react";
 
-// 🎨 Single-file React portfolio with a luxe, animated look.
-// TailwindCSS is assumed available in your project.
-// No new deps required (no Framer Motion) — all effects are CSS.
+// Single-file React portfolio with luxe visuals — no @apply usage.
+// All styling is inline Tailwind utilities + a tiny pure-CSS <EffectStyles/>.
+
+const cls = {
+  btnPrimary:
+    "group inline-flex items-center gap-2 rounded-2xl bg-sky-500 px-4 py-2 font-medium text-slate-950 shadow-lg shadow-sky-500/20 transition hover:-translate-y-0.5",
+  btnGhost:
+    "inline-flex items-center gap-2 rounded-2xl border border-slate-700 bg-white/5 px-4 py-2 font-medium transition hover:bg-white/10",
+  btnIcon:
+    "p-2 rounded-xl hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-sky-400",
+  sectionTitle: "text-2xl md:text-3xl font-bold tracking-tight",
+  chip:
+    "text-xs rounded-full border border-slate-700/60 bg-slate-800/60 px-2 py-1 text-slate-300",
+  card:
+    "relative block rounded-2xl border border-slate-800 bg-white/5 p-5 transition",
+  statCard:
+    "rounded-2xl border border-slate-800 bg-white/5 p-5 text-center",
+};
 
 const PROJECTS = [
   {
@@ -47,7 +62,7 @@ const LINKS = {
 
 export default function Portfolio() {
   return (
-    <main className="min-h-screen relative text-slate-100 overflow-hidden">
+    <main className="min-h-screen relative text-slate-100 overflow-hidden bg-slate-950">
       {/* Backgrounds */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         {/* Subtle grid */}
@@ -65,8 +80,8 @@ export default function Portfolio() {
       <CTA />
       <Footer />
 
-      {/* Local CSS for premium effects */}
-      <StyleBlock />
+      {/* Pure CSS (no Tailwind @apply) */}
+      <EffectStyles />
     </main>
   );
 }
@@ -89,10 +104,10 @@ function Header() {
           <a href="#resume" className="hover:text-white">Resume</a>
         </nav>
         <div className="flex items-center gap-2">
-          <a href={LINKS.github} className="btn-icon" aria-label="GitHub">
+          <a href={LINKS.github} className={cls.btnIcon} aria-label="GitHub">
             <Github className="h-5 w-5" />
           </a>
-          <a href={LINKS.email} className="btn-icon" aria-label="Email">
+          <a href={LINKS.email} className={cls.btnIcon} aria-label="Email">
             <Mail className="h-5 w-5" />
           </a>
         </div>
@@ -123,10 +138,10 @@ function Hero() {
           and off‑grid solar micro‑grids. I like clean code, clear signals, and systems that ship.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <a href="#projects" className="btn-primary">
-            See projects <ArrowRight className="h-4 w-4" />
+          <a href="#projects" className={cls.btnPrimary}>
+            See projects <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
           </a>
-          <a href="#contact" className="btn-ghost">Contact</a>
+          <a href="#contact" className={cls.btnGhost}>Contact</a>
         </div>
       </div>
     </section>
@@ -143,7 +158,7 @@ function Stats() {
     <section aria-label="Stats" className="mx-auto max-w-6xl px-4">
       <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4">
         {items.map((s) => (
-          <div key={s.label} className="stat-card">
+          <div key={s.label} className={cls.statCard}>
             <div className="text-2xl font-bold tracking-tight">{s.value}</div>
             <div className="text-slate-400 text-sm">{s.label}</div>
           </div>
@@ -156,7 +171,7 @@ function Stats() {
 function Projects() {
   return (
     <section id="projects" className="mx-auto max-w-6xl px-4 py-16 md:py-20">
-      <h2 className="section-title">Featured Projects</h2>
+      <h2 className={cls.sectionTitle}>Featured Projects</h2>
       <p className="mt-2 text-slate-300 max-w-2xl">A few things I’ve been building and iterating on.</p>
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
         {PROJECTS.map((p) => (
@@ -177,11 +192,7 @@ function ProjectCard({ p }: { p: { title: string; summary: string; tags: string[
     el.style.setProperty("--y", y + "px");
   };
   return (
-    <a
-      href={p.href}
-      onMouseMove={onMove}
-      className="card group"
-    >
+    <a href={p.href} onMouseMove={onMove} className={`${cls.card} group card`}>
       <div className="flex items-start gap-3">
         <div className="mt-1 text-sky-300">{p.icon}</div>
         <div>
@@ -189,7 +200,7 @@ function ProjectCard({ p }: { p: { title: string; summary: string; tags: string[
           <p className="mt-1 text-slate-300 text-sm leading-relaxed">{p.summary}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {p.tags.map((t) => (
-              <span key={t} className="chip">{t}</span>
+              <span key={t} className={cls.chip}>{t}</span>
             ))}
           </div>
         </div>
@@ -209,10 +220,10 @@ function Skills() {
   ];
   return (
     <section id="skills" className="mx-auto max-w-6xl px-4 py-16 md:py-20">
-      <h2 className="section-title">Core Skills</h2>
+      <h2 className={cls.sectionTitle}>Core Skills</h2>
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         {rows.map((r) => (
-          <div key={r.title} className="card">
+          <div key={r.title} className={`${cls.card} card`}>
             <div className="flex items-center gap-2">
               <span className="text-sky-300">{r.icon}</span>
               <h3 className="font-semibold">{r.title}</h3>
@@ -220,7 +231,8 @@ function Skills() {
             <ul className="mt-2 space-y-1 text-slate-300 text-sm">
               {r.bullets.map((b) => (
                 <li key={b} className="pl-4 relative">
-                  <span className="dot" />{b}
+                  <span className="absolute left-0 top-1.5 h-1.5 w-1.5 rounded-full bg-sky-400" />
+                  {b}
                 </li>
               ))}
             </ul>
@@ -237,14 +249,14 @@ function Skills() {
 function CTA() {
   return (
     <section id="contact" className="mx-auto max-w-6xl px-4 pb-24">
-      <div className="card flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className={`${cls.card} card flex flex-col md:flex-row items-start md:items-center justify-between gap-6`}>
         <div>
           <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Have a project in AI, firmware, or energy?</h2>
           <p className="mt-2 text-slate-300">Let’s talk details — scope, constraints, and how to ship fast.</p>
         </div>
         <div className="flex gap-3">
-          <a href={LINKS.email} className="btn-primary"><Mail className="h-4 w-4"/> Email me</a>
-          <a href={LINKS.github} className="btn-ghost"><Github className="h-4 w-4"/> GitHub</a>
+          <a href={LINKS.email} className={cls.btnPrimary}><Mail className="h-4 w-4"/> Email me</a>
+          <a href={LINKS.github} className={cls.btnGhost}><Github className="h-4 w-4"/> GitHub</a>
         </div>
       </div>
     </section>
@@ -254,12 +266,12 @@ function CTA() {
 function Footer() {
   return (
     <section id="resume" className="mx-auto max-w-6xl px-4 pb-14">
-      <div className="card">
-        <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Resume</h2>
+      <div className={`${cls.card} card`}>
+        <h2 className={cls.sectionTitle}>Resume</h2>
         <p className="mt-2 text-slate-300 max-w-2xl">Add a link to your current resume or a PDF. I can also generate a tailored version for roles in telemetry, firmware, or AI research.</p>
         <div className="mt-4 flex flex-wrap gap-3">
-          <a href="#" className="btn-ghost">View PDF</a>
-          <a href="#" className="btn-primary">Request tailored resume <ArrowRight className="h-4 w-4"/></a>
+          <a href="#" className={cls.btnGhost}>View PDF</a>
+          <a href="#" className={cls.btnPrimary}>Request tailored resume <ArrowRight className="h-4 w-4"/></a>
         </div>
       </div>
       <footer className="mt-10 text-center text-slate-500 text-sm">© {new Date().getFullYear()} Nyx. All rights reserved.</footer>
@@ -267,7 +279,7 @@ function Footer() {
   );
 }
 
-function StyleBlock() {
+function EffectStyles(){
   return (
     <style>{`
       .gradient-text{
@@ -277,17 +289,7 @@ function StyleBlock() {
       }
       @keyframes textshine{ to{ background-position: -200% 0; } }
 
-      .btn-primary{ @apply group inline-flex items-center gap-2 rounded-2xl bg-sky-500 px-4 py-2 font-medium text-slate-950 shadow-lg shadow-sky-500/20 hover:-translate-y-0.5 transition; }
-      .btn-ghost{ @apply inline-flex items-center gap-2 rounded-2xl border border-slate-700 bg-white/5 px-4 py-2 font-medium hover:bg-white/10 transition; }
-      .btn-icon{ @apply p-2 rounded-xl hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-sky-400; }
-
-      .section-title{ @apply text-2xl md:text-3xl font-bold tracking-tight; }
-      .chip{ @apply text-xs rounded-full border border-slate-700/60 bg-slate-800/60 px-2 py-1 text-slate-300; }
-      .dot{ @apply absolute left-0 top-1.5 h-1.5 w-1.5 rounded-full bg-sky-400; }
-      .card{ @apply relative block rounded-2xl border border-slate-800 bg-white/5 p-5 transition; }
-      .stat-card{ @apply rounded-2xl border border-slate-800 bg-white/5 p-5 text-center; }
-
-      /* Spotlight hover effect */
+      /* Spotlight hover effect for cards */
       .card::before{
         content:""; position:absolute; inset:-1px; border-radius:1rem; pointer-events:none;
         background: radial-gradient(120px circle at var(--x, 50%) var(--y, 50%), rgba(56,189,248,.15), transparent 60%);
@@ -295,7 +297,7 @@ function StyleBlock() {
       }
       .card:hover::before{ opacity:1; }
 
-      /* Subtle shimmering bar */
+      /* Shimmer bar */
       @keyframes shimmer{ from{ background-position: 0 0; } to{ background-position: 200% 0; } }
       .animate-shimmer{ animation: shimmer 2.4s linear infinite; background-size: 200% 100%; }
     `}</style>

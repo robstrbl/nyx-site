@@ -1,68 +1,37 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+/* Component classes used by the app */
+@layer components {
+  .btn-primary { @apply inline-flex items-center gap-2 rounded-2xl bg-sky-500 px-4 py-2 font-medium text-slate-950 shadow-lg shadow-sky-500/20 hover:-translate-y-0.5 transition; }
+  .btn-ghost   { @apply inline-flex items-center gap-2 rounded-2xl border border-slate-700 bg-white/5 px-4 py-2 font-medium hover:bg-white/10 transition; }
+  .btn-icon    { @apply p-2 rounded-xl hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-sky-400; }
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  .section-title { @apply text-2xl md:text-3xl font-bold tracking-tight; }
+  .chip          { @apply text-xs rounded-full border border-slate-700/60 bg-slate-800/60 px-2 py-1 text-slate-300; }
+  .dot           { @apply absolute left-0 top-1.5 h-1.5 w-1.5 rounded-full bg-sky-400; }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  .card      { @apply relative block rounded-2xl border border-slate-800 bg-white/5 p-5 transition; }
+  .stat-card { @apply rounded-2xl border border-slate-800 bg-white/5 p-5 text-center; }
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+/* Effects */
+.card::before{
+  content:"";
+  position:absolute; inset:-1px; border-radius:1rem; pointer-events:none;
+  background: radial-gradient(120px circle at var(--x,50%) var(--y,50%), rgba(56,189,248,.15), transparent 60%);
+  opacity:0; transition:opacity .2s ease;
+}
+.card:hover::before{ opacity:1; }
+
+.gradient-text{
+  background: linear-gradient(90deg, #7dd3fc, #e879f9, #7dd3fc);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  background-size: 200% 100%;
+  animation: textshine 9s linear infinite;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
+@keyframes textshine{ to{ background-position: -200% 0; } }
+@keyframes shimmer{ from{ background-position: 0 0; } to{ background-position: 200% 0; } }
+.animate-shimmer{ animation: shimmer 2.4s linear infinite; background-size: 200% 100%; }
